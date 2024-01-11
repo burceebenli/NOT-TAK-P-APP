@@ -1,0 +1,15 @@
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\bin\Debug\net6.0\NotTakipAPP.exe
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\bin\Debug\net6.0\NotTakipAPP.deps.json
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\bin\Debug\net6.0\NotTakipAPP.runtimeconfig.json
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\bin\Debug\net6.0\NotTakipAPP.dll
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\bin\Debug\net6.0\NotTakipAPP.pdb
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\NotTakipAPP.csproj.AssemblyReference.cache
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\NotTakipAPP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\NotTakipAPP.AssemblyInfoInputs.cache
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\NotTakipAPP.AssemblyInfo.cs
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\NotTakipAPP.csproj.CoreCompileInputs.cache
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\NotTakipAPP.dll
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\refint\NotTakipAPP.dll
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\NotTakipAPP.pdb
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\NotTakipAPP.genruntimeconfig.cache
+C:\Users\F1\Desktop\c# çalışma\NotTakipAPP\NotTakipAPP\obj\Debug\net6.0\ref\NotTakipAPP.dll
