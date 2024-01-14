@@ -1,16 +1,20 @@
-﻿using NotTakipApp;
+using NotTakipApp;
 using System.Security.Cryptography.X509Certificates;
 using System.Media;
 using System.Runtime.InteropServices;
+using static System.Net.Mime.MediaTypeNames;
+
 
 class Program
 {
-    private const string DogruSifre = "12345";
+       private const string DogruSifre = "12345";
+       
     public static void Main(String[] args)
     {
+        //şifre hatalı olduğunda ses çıkarmasını sağlayan kodlar
         // Windows API'dan gelen metotları tanımlıyoruz.
         [DllImport("winmm.dll")]
-
+        
         static extern long PlaySound(string lpszName, long hModule, long dwFlags);
 
         // Sabitler
@@ -28,7 +32,7 @@ class Program
             while (!gecerliSifreGirildi)
             {
                 Console.WriteLine("Lütfen şifreyi giriniz:");
-                string girilenSifre = Console.ReadLine();
+                string girilenSifre = SifreGirisi(); // Şifreyi gizlemek için yeni bir fonksiyon kullanıyoruz
 
                 // Girilen şifrenin doğru olup olmadığını kontrol edin
                 if (SifreDogrula(girilenSifre))
@@ -36,7 +40,6 @@ class Program
                     Console.WriteLine("Giriş başarılı! Uygulamaya erişebilirsiniz.");
                     gecerliSifreGirildi = true; // Doğru şifre girildiğinde döngüden çık
                     Baslat();
-
                 }
                 else
                 {
@@ -45,9 +48,35 @@ class Program
                     SesCikar();
                 }
             }
+
+            // Şifre gizleme fonksiyonu
+            static string SifreGirisi()
+            {
+                string sifre = "";
+                ConsoleKeyInfo keyInfo;
+
+                do
+                {
+                    keyInfo = Console.ReadKey(true); // True parametresi girdinin ekranda gösterilmemesi için
+                    if (keyInfo.Key != ConsoleKey.Enter && keyInfo.Key != ConsoleKey.Backspace)
+                    {
+                        sifre += keyInfo.KeyChar;
+                        Console.Write("*"); // Kullanıcının gördüğü karakterin yerine * koyar
+                    }
+                    else if (keyInfo.Key == ConsoleKey.Backspace && sifre.Length > 0)
+                    {
+                        sifre = sifre.Substring(0, sifre.Length - 1);
+                        Console.Write("\b \b"); // Kullanıcının son girdiği karakteri siler
+                    }
+                }
+                while (keyInfo.Key != ConsoleKey.Enter); // Enter tuşuna basıldığında döngüden çıkar
+
+                return sifre;
+            }
+
         }
 
-
+        //şifre hatalı olduğunda ses çıkarmasını sağlayan kodların devamı
         static void SesCikar()
         {
             try
@@ -65,115 +94,117 @@ class Program
 
     public static void Baslat()
     {
-        Notdefteri notdefteri = new Notdefteri("Listem");
-        Console.WriteLine("----- Todo APP -----");
-        menü();
+            Notdefteri notdefteri = new Notdefteri("Listem");
+            Console.WriteLine("----- Todo APP -----");
+            menü();
 
-        while (true)
-        {
-            Console.WriteLine("\nSeçim Yapınız :");
-            string input = Console.ReadLine();
-            int number;
-            if (!Int32.TryParse(input, out number))
+            while (true)
             {
-                Console.WriteLine("Hatalı Seçim Yaptınız");
-                continue;
-            }
+                Console.WriteLine("\nSeçim Yapınız :");
+                string input = Console.ReadLine();
+                int number;
+                if (!Int32.TryParse(input, out number))
+                {
+                    Console.WriteLine("Hatalı Seçim Yaptınız");
+                    continue;
+                }
 
-            if (number < 0 || number > 6)
-            {
-                Console.WriteLine("Yanlış seçim yaptınız!");
-                continue;
-            }
+                if (number < 0 || number > 6)
+                {
+                    Console.WriteLine("Yanlış seçim yaptınız!");
+                    continue;
+                }
 
-            switch (number)
-            {
-                case 0:
-                    Console.WriteLine("Program Kapatıldı!");
-                    Environment.Exit(0);
-                    break;
-
-                case 1:
-                    Console.Clear();
-                    notdefteri.notGöster();
-                    menü();
-                    break;
-
-                case 2:
-                    Console.Clear();
-                    notdefteri.todoGöster();
-                    menü();
-                    break;
-
-                case 3:
-                    Console.Clear();
-
-                    Console.WriteLine("\nNot bilgilerini giriniz: ");
-                    Console.WriteLine("Başlık: ");
-                    string notBaslik = Console.ReadLine();
-                    Console.WriteLine("İçerik: ");
-                    string notIcerik = Console.ReadLine();
-                    notdefteri.notEkle(notBaslik, notIcerik);
-
-                    menü();
-                    break;
-
-                case 4:
-                    Console.Clear();
-
-                    Console.WriteLine("\nTodo bilgilerini giriniz: ");
-                    Console.WriteLine("Başlık: ");
-                    string todobaslik = Console.ReadLine();
-                    Console.WriteLine("İçerik: ");
-                    string todoIcerik = Console.ReadLine();
-
-                    Console.WriteLine("Öncelik değeri(Düşük:0, Orta:1, Yüksek:2):");
-                    int öncelikDegeri;
-                    while (true)
-                    {
-                        öncelikDegeri = getInt();
-
-                        if (öncelikDegeri < 0 || öncelikDegeri > 2)
-                        {
-                            Console.WriteLine("Öncelik değerini hatalı girdiniz! Tekrar Giriniz: ");
-                            continue;
-                        }
+                switch (number)
+                {
+                    case 0:
+                        Console.WriteLine("Program Kapatılıyor!");
+                        Thread.Sleep(1500);
+                        Environment.Exit(0);
+                        
                         break;
-                    }
 
-                    Console.WriteLine("Bitiş Tarihini giriniz(Format: dd-MM-yyyy):");
-                    DateTime bitisTarih = getDate();
+                    case 1:
+                        Console.Clear();
+                        notdefteri.notGöster();
+                        menü();
+                        break;
 
-                    notdefteri.todoEkle(todobaslik, todoIcerik, bitisTarih, öncelikDegeri);
+                    case 2:
+                        Console.Clear();
+                        notdefteri.todoGöster();
+                        menü();
+                        break;
 
-                    Console.Clear();
-                    menü();
-                    break;
+                    case 3:
+                        Console.Clear();
 
-                case 5:
-                    Console.WriteLine("-- Not Sil --\nSilinecek not indeksini giriniz: ");
-                    int notIndex = getInt();
-                    notdefteri.notCıkar(notIndex);
+                        Console.WriteLine("\nNot bilgilerini giriniz: ");
+                        Console.WriteLine("Başlık: ");
+                        string notBaslik = Console.ReadLine();
+                        Console.WriteLine("İçerik: ");
+                        string notIcerik = Console.ReadLine();
+                        notdefteri.notEkle(notBaslik, notIcerik);
 
-                    Console.Clear();
-                    menü();
-                    break;
+                        menü();
+                        break;
 
-                case 6:
-                    Console.WriteLine("-- Todo Sil --\nSilinecek todo indeksini giriniz: ");
-                    int todoIndex = getInt();
-                    notdefteri.todoCıkar(todoIndex);
+                    case 4:
+                        Console.Clear();
 
-                    Console.Clear();
-                    menü();
-                    break;
+                        Console.WriteLine("\nTodo bilgilerini giriniz: ");
+                        Console.WriteLine("Başlık: ");
+                        string todobaslik = Console.ReadLine();
+                        Console.WriteLine("İçerik: ");
+                        string todoIcerik = Console.ReadLine();
+
+                        Console.WriteLine("Öncelik değeri(Düşük:0, Orta:1, Yüksek:2):");
+                        int öncelikDegeri;
+                        while (true)
+                        {
+                            öncelikDegeri = getInt();
+
+                            if (öncelikDegeri < 0 || öncelikDegeri > 2)
+                            {
+                                Console.WriteLine("Öncelik değerini hatalı girdiniz! Tekrar Giriniz: ");
+                                continue;
+                            }
+                            break;
+                        }
+
+                        Console.WriteLine("Bitiş Tarihini giriniz(Format: dd-MM-yyyy):");
+                        DateTime bitisTarih = getDate();
+
+                        notdefteri.todoEkle(todobaslik, todoIcerik, bitisTarih, öncelikDegeri);
+
+                        Console.Clear();
+                        menü();
+                        break;
+
+                    case 5:
+                        Console.WriteLine("-- Not Sil --\nSilinecek not indeksini giriniz: ");
+                        int notIndex = getInt();
+                        notdefteri.notCıkar(notIndex);
+
+                        Console.Clear();
+                        menü();
+                        break;
+
+                    case 6:
+                        Console.WriteLine("-- Todo Sil --\nSilinecek todo indeksini giriniz: ");
+                        int todoIndex = getInt();
+                        notdefteri.todoCıkar(todoIndex);
+
+                        Console.Clear();
+                        menü();
+                        break;
+                }
             }
-        }
     }
+    
 
 
-
-
+       
     public static void menü()
     {
         Console.WriteLine("\nMenü\n  1-Notları gör\n  2-Todoları gör\n  3-Not Ekle\n  4-Todo Ekle\n  5-Not Sil\n  6-Todo Sil\n  0-Çıkış Yap");
